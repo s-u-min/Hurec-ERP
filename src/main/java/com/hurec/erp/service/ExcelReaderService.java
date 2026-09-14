@@ -26,20 +26,24 @@ public class ExcelReaderService {
 
             DataFormatter formatter = new DataFormatter();
 
-            for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+            for (int i = 4; i <= sheet.getLastRowNum(); i++) {
                 Row row = sheet.getRow(i);
                 if (row == null) continue;
 
-                String workDate = formatter.formatCellValue(row.getCell(0));
-                String customerName = formatter.formatCellValue(row.getCell(1));
-                String address = formatter.formatCellValue(row.getCell(2));
-                String serviceType = formatter.formatCellValue(row.getCell(3));
-                String engineerName = formatter.formatCellValue(row.getCell(4));
+                String customerName = formatter.formatCellValue(row.getCell(3));
+                if (customerName.contains("합계") || customerName.trim().isEmpty()) {
+                    break;
+                }
 
-                BigDecimal commissionFee = parseBigDecimal(formatter.formatCellValue(row.getCell(5)));
-                BigDecimal supplyPrice = parseBigDecimal(formatter.formatCellValue(row.getCell(6)));
-                BigDecimal vat = parseBigDecimal(formatter.formatCellValue(row.getCell(7)));
-                BigDecimal totalAmount = parseBigDecimal(formatter.formatCellValue(row.getCell(8)));
+                String workDate = formatter.formatCellValue(row.getCell(1));
+                String address = formatter.formatCellValue(row.getCell(4));
+                String serviceType = formatter.formatCellValue(row.getCell(5));
+                String engineerName = formatter.formatCellValue(row.getCell(8));
+
+                BigDecimal commissionFee = parseBigDecimal(formatter.formatCellValue(row.getCell(9)));
+                BigDecimal supplyPrice = parseBigDecimal(formatter.formatCellValue(row.getCell(14)));
+                BigDecimal vat = parseBigDecimal(formatter.formatCellValue(row.getCell(15)));
+                BigDecimal totalAmount = parseBigDecimal(formatter.formatCellValue(row.getCell(16)));
 
                 CustomerOrderDto dto = CustomerOrderDto.builder()
                         .workDate(workDate)
@@ -62,7 +66,14 @@ public class ExcelReaderService {
         if (value == null || value.trim().isEmpty()) {
             return BigDecimal.ZERO;
         }
-        String cleaned = value.replaceAll(",", "").trim();
-        return new BigDecimal(cleaned);
+        String cleaned = value.replaceAll("[^0-9.-]", "").trim();
+        if (cleaned.isEmpty() || cleaned.equals("-")) {
+            return BigDecimal.ZERO;
+        }
+        try {
+            return new BigDecimal(cleaned);
+        } catch (NumberFormatException e) {
+            return BigDecimal.ZERO;
+        }
     }
 }
