@@ -17,7 +17,7 @@ public class CustomerOrderService {
     private final CustomerOrderRepository customerOrderRepository;
 
     @Transactional
-    public void saveOrders(List<CustomerOrderDto> dtoList) {
+    public int saveCustomerOrders(List<CustomerOrderDto> dtoList) {
         List<CustomerOrder> orderEntities = dtoList.stream()
                 .map(dto -> CustomerOrder.builder()
                         .workDate(dto.getWorkDate())
@@ -30,8 +30,9 @@ public class CustomerOrderService {
                         .vat(dto.getVat())
                         .totalAmount(dto.getTotalAmount())
                         .build())
-                .collect(Collectors.toList());
+                .toList();
 
-        customerOrderRepository.saveAll(orderEntities);
+        List<CustomerOrder> savedList = customerOrderRepository.saveAll(orderEntities);
+        return savedList.size();
     }
 }

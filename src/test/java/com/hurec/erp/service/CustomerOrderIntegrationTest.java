@@ -40,7 +40,7 @@ class CustomerOrderIntegrationTest {    // 테스트 메서드는 public 생략
 
         List<CustomerOrderDto> dtoList = excelReaderService.parseCustomerOrders(mockFile);
 
-        customerOrderService.saveOrders(dtoList);
+        customerOrderService.saveCustomerOrders(dtoList);
 
         long savedCount = customerOrderRepository.count();
         System.out.println("==========================================");
