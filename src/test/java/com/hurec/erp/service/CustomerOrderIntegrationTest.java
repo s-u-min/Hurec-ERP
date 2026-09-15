@@ -1,6 +1,6 @@
 package com.hurec.erp.service;
 
-import com.hurec.erp.domain.CustomerOrderRepository;
+import com.hurec.erp.repository.CustomerOrderRepository;
 import com.hurec.erp.dto.CustomerOrderDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

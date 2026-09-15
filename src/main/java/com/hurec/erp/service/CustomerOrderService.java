@@ -1,14 +1,13 @@
 package com.hurec.erp.service;
 
 import com.hurec.erp.domain.CustomerOrder;
-import com.hurec.erp.domain.CustomerOrderRepository;
+import com.hurec.erp.repository.CustomerOrderRepository;
 import com.hurec.erp.dto.CustomerOrderDto;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
