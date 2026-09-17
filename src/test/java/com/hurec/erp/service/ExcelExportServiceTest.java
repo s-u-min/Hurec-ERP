@@ -95,19 +95,17 @@ class ExcelExportServiceTest {
             type = cell.getCachedFormulaResultType();
         }
 
-        switch (type) {
-            case NUMERIC:
+        return switch (type) {
+            case NUMERIC -> {
                 if (DateUtil.isCellDateFormatted(cell)) {
-                    return cell.getLocalDateTimeCellValue().toString();
+                    yield cell.getLocalDateTimeCellValue().toString();
                 }
-                return cell.getNumericCellValue();
-            case STRING:
-                return cell.getStringCellValue();
-            case BOOLEAN:
-                return cell.getBooleanCellValue();
-            default:
-                return "";
-        }
+                yield cell.getNumericCellValue();
+            }
+            case STRING -> cell.getStringCellValue();
+            case BOOLEAN -> cell.getBooleanCellValue();
+            default -> "";
+        };
     }
 
     private String getCellValueAsString(Cell cell) {
