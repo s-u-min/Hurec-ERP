@@ -38,7 +38,7 @@ public class ExcelExportService {
 
             int totalSheets = workbook.getNumberOfSheets();
             if (totalSheets > 1) {
-                workbook.setSheetOrder(sheetName, totalSheets - 2);
+                workbook.setSheetOrder(sheetName, totalSheets - 1);
             }
 
             DataFormat dataFormat = workbook.createDataFormat();
@@ -93,7 +93,7 @@ public class ExcelExportService {
                         cell.setCellValue(val.toString());
                     }
 
-                    if (c >= 9 && c <= 16) {
+                    if (c >= 8 && c <= 15) {
                         cell.setCellStyle(numberStyle);
                     } else {
                         cell.setCellStyle(defaultStyle);
@@ -101,7 +101,7 @@ public class ExcelExportService {
                 }
             }
 
-            int n = (dataRowCount > 0) ? dataRowCount + 1 : 2;
+            int n = (dataRowCount > 0) ? dataRowCount + 1 : 1;
 
             int rN2 = n + 3; // n+3행
             int rN3 = n + 4; // n+4행
@@ -112,11 +112,11 @@ public class ExcelExportService {
             Row rowN2 = sheet.createRow(rN2 - 1);
             createCell(rowN2, 7, "", defaultStyle, false);
             createCell(rowN2, 8, "", defaultStyle, false);
-            createCell(rowN2, 9, "SUM(J2:J" + n + ")", calcStyle, true);
+            createCell(rowN2, 9, "SUM(I2:I" + n + ")", calcStyle, true);
 
             Row rowN3 = sheet.createRow(rN3 - 1);
             createCell(rowN3, 7, "현장 수수료", defaultStyle, false);
-            createCell(rowN3, 8, "COUNTIF(J2:J" + n + ", 0)", calcStyle, true);
+            createCell(rowN3, 8, "COUNTIF(I2:I" + n + ", 0)", calcStyle, true);
             createCell(rowN3, 9, "-5000*I" + rN3, calcStyle, true);
 
             Row rowN4 = sheet.createRow(rN4 - 1);
